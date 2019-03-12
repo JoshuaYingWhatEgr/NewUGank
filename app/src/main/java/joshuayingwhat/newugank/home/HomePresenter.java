@@ -36,11 +36,12 @@ public class HomePresenter implements HomeContract.Presenter {
     //获取随机图片
     @Override
     public void getRandomBanner() {
-            getBanner(true);
+        getBanner(true);
     }
 
     /**
      * 获取图片是否随机  true 不随机  false 随机
+     *
      * @param isRandom
      */
     private void getBanner(boolean isRandom) {
@@ -49,10 +50,10 @@ public class HomePresenter implements HomeContract.Presenter {
         //设置不可点击
         mHomeView.setUnEnableClick();
         Observable<CategoryResult> observable = null;
-        if(isRandom) {
+        if (isRandom) {
             //获取随机图片
             observable = NetWork.getGankApi().getRandomBeauties(1);
-        }else {
+        } else {
 
         }
         Subscription subscribe = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CategoryResult>() {
@@ -70,18 +71,18 @@ public class HomePresenter implements HomeContract.Presenter {
 
             @Override
             public void onNext(CategoryResult categoryResult) {
-                if(categoryResult != null && categoryResult.results != null && categoryResult.results.size() > 0
+                if (categoryResult != null && categoryResult.results != null && categoryResult.results.size() > 0
                         && categoryResult.results.get(0).url != null) {
-                    Log.e("Tag","url="+categoryResult.results.get(0).url);
+                    Log.e("Tag", "url=" + categoryResult.results.get(0).url);
                     //设置banner图片
                     mHomeView.setBannerImage(categoryResult.results.get(0).url);
-                }else {
+                } else {
                     mHomeView.showBannerFail();
                 }
-                    //获取到图片后停止动画
-                    mHomeView.stopBannerLoadingAnim();
-                    //恢复点击状态
-                    mHomeView.setEnableClick();
+                //获取到图片后停止动画
+                mHomeView.stopBannerLoadingAnim();
+                //恢复点击状态
+                mHomeView.setEnableClick();
             }
         });
     }
@@ -115,9 +116,9 @@ public class HomePresenter implements HomeContract.Presenter {
 
                     @Override
                     public void onNext(CategoryResult categoryResult) {
-                        if(categoryResult != null && categoryResult.results != null
+                        if (categoryResult != null && categoryResult.results != null
                                 && categoryResult.results.size() > 0 && categoryResult.results.get(0).url != null) {
-                                mHomeView.cacheImg(categoryResult.results.get(0).url);
+                            mHomeView.cacheImg(categoryResult.results.get(0).url);
                         }
                     }
                 });

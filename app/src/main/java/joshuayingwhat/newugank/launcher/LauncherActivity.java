@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.view.Window;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;

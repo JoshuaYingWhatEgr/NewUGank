@@ -66,7 +66,6 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
         mHomePresenter.getRandomBanner();
     }
 
-
     //点击FloatingActionButton从网络获取图片
     @OnClick(R.id.fab_home_random)
     public void random(View view) {
