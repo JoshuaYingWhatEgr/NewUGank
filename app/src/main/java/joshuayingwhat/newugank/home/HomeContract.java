@@ -1,5 +1,7 @@
 package joshuayingwhat.newugank.home;
 
+import android.support.v7.graphics.Palette;
+
 import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.base.BaseView;
 
@@ -26,6 +28,10 @@ public interface HomeContract {
         void setBannerImage(String url);
 
         void showBannerFail();
+
+        void setAppBarBackColor(int colorParimay);
+
+        void setFabButtonColor(int colorParimay);
     }
 
     interface Presenter extends BasePresenter {
@@ -33,5 +39,7 @@ public interface HomeContract {
 
         //获取随机图片
         void getRandomBanner();
+
+        void setThemeColor(Palette palette);
     }
 }

@@ -1,11 +1,14 @@
 package joshuayingwhat.newugank.home;
 
 import android.support.annotation.NonNull;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.widget.Toast;
 
 import joshuayingwhat.newugank.App;
 import joshuayingwhat.newugank.ConfigManager;
+import joshuayingwhat.newugank.R;
+import joshuayingwhat.newugank.ThemeManager;
 import joshuayingwhat.newugank.entity.CategoryResult;
 import joshuayingwhat.newugank.network.NetWork;
 import rx.Observable;
@@ -37,6 +40,24 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void getRandomBanner() {
         getBanner(true);
+    }
+
+    /**
+     * 设置状态栏颜色
+     *
+     * @param palette
+     */
+    @Override
+    public void setThemeColor(Palette palette) {
+        if (palette != null) {
+            int color = App.getInstance().getResources().getColor(R.color.colorPrimary);
+            ThemeManager.INSTANCE.setColorParimay(palette.getDarkVibrantColor(color));
+            mHomeView.setAppBarBackColor(ThemeManager.INSTANCE.getColorParimay());
+            //设置fbbutton的背景色
+            mHomeView.setFabButtonColor(ThemeManager.INSTANCE.getColorParimay());
+            mHomeView.setEnableClick();
+            mHomeView.stopBannerLoadingAnim();
+        }
     }
 
     /**

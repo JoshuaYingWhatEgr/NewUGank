@@ -9,6 +9,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.github.florent37.picassopalette.PicassoPalette;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import joshuayingwhat.newugank.R;
+import joshuayingwhat.newugank.utils.MDTintUtil;
 
 /**
  * Created by JoshuaYingWhat on 2017/12/5.
@@ -125,12 +128,36 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     //设置banner图片
     @Override
     public void setBannerImage(String url) {
-        Picasso.with(this).load(url).into(ivHomeBanner);
+        Picasso.with(this).load(url).into(ivHomeBanner, PicassoPalette.with(url,ivHomeBanner)
+        .intoCallBack(new PicassoPalette.CallBack() {
+            @Override
+            public void onPaletteLoaded(Palette palette) {
+                mHomePresenter.setThemeColor(palette);
+            }
+        }));
     }
 
     @Override
     public void showBannerFail() {
         Toast.makeText(this, "图片加载失败", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 设置appbar的背景色
+     * @param colorParimay 颜色值
+     */
+    @Override
+    public void setAppBarBackColor(int colorParimay) {
+        appbar.setBackgroundColor(colorParimay);
+    }
+
+    /**
+     * 设置fb的背景色
+     * @param colorParimay
+     */
+    @Override
+    public void setFabButtonColor(int colorParimay) {
+        MDTintUtil.setTint(fabHomeRandom,colorParimay);
     }
 
 
