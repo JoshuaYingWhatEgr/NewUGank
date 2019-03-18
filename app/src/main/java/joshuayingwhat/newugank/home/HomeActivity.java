@@ -2,6 +2,7 @@ package joshuayingwhat.newugank.home;
 
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -27,12 +28,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import joshuayingwhat.newugank.R;
+import joshuayingwhat.newugank.base.BaseActivity;
+import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.utils.MDTintUtil;
 
 /**
  * Created by JoshuaYingWhat on 2017/12/5.
  */
-public class HomeActivity extends AppCompatActivity implements HomeContract.View {
+public class HomeActivity extends BaseActivity implements HomeContract.View {
 
 
     @BindView(R.id.iv_home_setting)
@@ -56,17 +59,32 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     @BindView(R.id.fab_home_random)
     FloatingActionButton fabHomeRandom;
 
-    public HomeContract.Presenter mHomePresenter = new HomePresenter(this);
+    public HomeContract.Presenter mHomePresenter;
     private Unbinder bind;
     private ObjectAnimator mAnimator;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        bind = ButterKnife.bind(this);
+    public int setLayoutView() {
+        return R.layout.activity_home;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         mHomePresenter.subscribe();
         mHomePresenter.getRandomBanner();
+    }
+
+    @Override
+    public BasePresenter createPresenter() {
+        if (mHomePresenter == null) {
+            mHomePresenter = new HomePresenter(this);
+        }
+        return mHomePresenter;
+    }
+
+    @Override
+    public void settingActivity() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     //点击FloatingActionButton从网络获取图片
@@ -128,13 +146,13 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
     //设置banner图片
     @Override
     public void setBannerImage(String url) {
-        Picasso.with(this).load(url).into(ivHomeBanner, PicassoPalette.with(url,ivHomeBanner)
-        .intoCallBack(new PicassoPalette.CallBack() {
-            @Override
-            public void onPaletteLoaded(Palette palette) {
-                mHomePresenter.setThemeColor(palette);
-            }
-        }));
+        Picasso.with(this).load(url).into(ivHomeBanner, PicassoPalette.with(url, ivHomeBanner)
+                .intoCallBack(new PicassoPalette.CallBack() {
+                    @Override
+                    public void onPaletteLoaded(Palette palette) {
+                        mHomePresenter.setThemeColor(palette);
+                    }
+                }));
     }
 
     @Override
@@ -144,6 +162,7 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     /**
      * 设置appbar的背景色
+     *
      * @param colorParimay 颜色值
      */
     @Override
@@ -153,18 +172,18 @@ public class HomeActivity extends AppCompatActivity implements HomeContract.View
 
     /**
      * 设置fb的背景色
+     *
      * @param colorParimay
      */
     @Override
     public void setFabButtonColor(int colorParimay) {
-        MDTintUtil.setTint(fabHomeRandom,colorParimay);
+        MDTintUtil.setTint(fabHomeRandom, colorParimay);
     }
 
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         mHomePresenter.unsubscribe();
-        bind.unbind();
+        super.onDestroy();
     }
 }

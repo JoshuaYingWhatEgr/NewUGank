@@ -1,9 +1,7 @@
 package joshuayingwhat.newugank.home;
 
-import android.support.annotation.NonNull;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
-import android.widget.Toast;
 
 import joshuayingwhat.newugank.App;
 import joshuayingwhat.newugank.ConfigManager;

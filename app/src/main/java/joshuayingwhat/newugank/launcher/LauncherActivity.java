@@ -14,29 +14,47 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import joshuayingwhat.newugank.R;
+import joshuayingwhat.newugank.base.BaseActivity;
+import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.home.HomeActivity;
 
 /**
  * 启动页
- * Created by JoshuaYingWhat on 2017/12/4.
+ *
+ * @author JoshuaYingWhat
+ * @date 2017/12/4
  */
-public class LauncherActivity extends AppCompatActivity implements LauncherContract.View {
+public class LauncherActivity extends BaseActivity implements LauncherContract.View {
 
     public boolean isResume;
 
-    public LauncherContract.Presenter mLauncherPresenter = new LauncherPresenter(this);
+    public LauncherContract.Presenter mLauncherPresenter;
 
     @BindView(R.id.img_launcher_welcome)
     AppCompatImageView mImageView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_launcher);
-        ButterKnife.bind(this);
+    public int setLayoutView() {
+        return R.layout.activity_launcher;
+    }
+
+    @Override
+    public void initData(Bundle savedInstanceState) {
         //初始化LauncherPresenter
         mLauncherPresenter.subscribe();
+    }
+
+    @Override
+    public BasePresenter createPresenter() {
+        if (mLauncherPresenter == null) {
+            mLauncherPresenter = new LauncherPresenter(this);
+        }
+        return mLauncherPresenter;
+    }
+
+    @Override
+    public void settingActivity() {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override
@@ -102,8 +120,8 @@ public class LauncherActivity extends AppCompatActivity implements LauncherContr
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         //接触注册
         mLauncherPresenter.unsubscribe();
+        super.onDestroy();
     }
 }
