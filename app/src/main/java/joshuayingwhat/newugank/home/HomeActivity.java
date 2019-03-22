@@ -33,15 +33,14 @@ import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.utils.MDTintUtil;
 
 /**
- * Created by JoshuaYingWhat on 2017/12/5.
+ *
+ * @author JoshuaYingWhat
+ * @date 2017/12/5
  */
 public class HomeActivity extends BaseActivity implements HomeContract.View {
 
-
     @BindView(R.id.iv_home_setting)
     AppCompatImageView ivHomeSetting;
-    //    @BindView(R.id.tab_home_category)
-//    DachshundTabLayout tabHomeCategory;
     @BindView(R.id.tl_home_toolbar)
     Toolbar tlHomeToolbar;
     @BindView(R.id.ll_home_search)
@@ -60,7 +59,6 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     FloatingActionButton fabHomeRandom;
 
     public HomeContract.Presenter mHomePresenter;
-    private Unbinder bind;
     private ObjectAnimator mAnimator;
 
     @Override
@@ -173,7 +171,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     /**
      * 设置fb的背景色
      *
-     * @param colorParimay
+     * @param colorParimay 颜色值
      */
     @Override
     public void setFabButtonColor(int colorParimay) {

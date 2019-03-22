@@ -17,7 +17,9 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by JoshuaYingWhat on 2017/12/6.
+ *
+ * @author JoshuaYingWhat
+ * @date 2017/12/6
  */
 public class HomePresenter implements HomeContract.Presenter {
     private HomeContract.View mHomeView;

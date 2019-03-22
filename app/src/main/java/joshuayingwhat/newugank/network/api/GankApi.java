@@ -2,7 +2,6 @@ package joshuayingwhat.newugank.network.api;
 
 import joshuayingwhat.newugank.entity.CategoryResult;
 import retrofit2.http.GET;
-import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
 
