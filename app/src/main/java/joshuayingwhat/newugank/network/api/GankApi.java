@@ -10,6 +10,11 @@ import rx.Observable;
  */
 public interface GankApi {
 
+    @GET("data/{category}/{number}/{page}")
+    Observable<CategoryResult> getCategoryDate(@Path("category") String category,
+                                               @Path("number") int number, @Path("page") int page);
+
     @GET("random/data/福利/{number}")
     Observable<CategoryResult> getRandomBeauties(@Path("number") int number);
+
 }

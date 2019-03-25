@@ -2,8 +2,11 @@ package joshuayingwhat.newugank.home;
 
 import android.support.v7.graphics.Palette;
 
+import joshuayingwhat.newugank.base.BaseModel;
 import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.base.BaseView;
+import joshuayingwhat.newugank.entity.CategoryResult;
+import rx.Observable;
 
 /**
  * homeContract契约类
@@ -41,5 +44,9 @@ public interface HomeContract {
         void getRandomBanner();
 
         void setThemeColor(Palette palette);
+    }
+
+    interface Model extends BaseModel {
+        Observable<CategoryResult> getRandomBeauties(int number);
     }
 }

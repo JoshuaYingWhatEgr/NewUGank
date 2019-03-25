@@ -8,7 +8,7 @@ import joshuayingwhat.newugank.ConfigManager;
 import joshuayingwhat.newugank.R;
 import joshuayingwhat.newugank.ThemeManager;
 import joshuayingwhat.newugank.entity.CategoryResult;
-import joshuayingwhat.newugank.network.NetWork;
+import joshuayingwhat.newugank.network.RetrofitFactory;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -17,17 +17,18 @@ import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 /**
- *
  * @author JoshuaYingWhat
  * @date 2017/12/6
  */
 public class HomePresenter implements HomeContract.Presenter {
+    private HomeModel homeModdel;
     private HomeContract.View mHomeView;
 
     private CompositeSubscription mSubscription;
 
-    public HomePresenter(HomeContract.View view) {
+    public HomePresenter(HomeContract.View view, HomeModel homeModel) {
         this.mHomeView = view;
+        this.homeModdel = homeModel;
         mSubscription = new CompositeSubscription();
     }
 
@@ -73,7 +74,7 @@ public class HomePresenter implements HomeContract.Presenter {
         Observable<CategoryResult> observable = null;
         if (isRandom) {
             //获取随机图片
-            observable = NetWork.getGankApi().getRandomBeauties(1);
+            observable = homeModdel.getRandomBeauties(1);
         } else {
 
         }
@@ -122,7 +123,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void cacheRandomImg() {
         //网络获取随机妹子
         Observable<CategoryResult> observable;
-        observable = NetWork.getGankApi().getRandomBeauties(1);
+        observable = mHomeView.getRandomBeauties(1);
         Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CategoryResult>() {
                     @Override
