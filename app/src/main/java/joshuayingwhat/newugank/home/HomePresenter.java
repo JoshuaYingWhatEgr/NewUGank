@@ -8,7 +8,6 @@ import joshuayingwhat.newugank.ConfigManager;
 import joshuayingwhat.newugank.R;
 import joshuayingwhat.newugank.ThemeManager;
 import joshuayingwhat.newugank.entity.CategoryResult;
-import joshuayingwhat.newugank.network.RetrofitFactory;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
@@ -123,7 +122,7 @@ public class HomePresenter implements HomeContract.Presenter {
     public void cacheRandomImg() {
         //网络获取随机妹子
         Observable<CategoryResult> observable;
-        observable = mHomeView.getRandomBeauties(1);
+        observable = homeModdel.getRandomBeauties(1);
         Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<CategoryResult>() {
                     @Override
