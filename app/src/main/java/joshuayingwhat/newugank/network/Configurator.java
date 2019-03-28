@@ -41,7 +41,7 @@ public class Configurator implements Serializable {
     public Configurator(Builder builder) {
         readOutTime = builder.readOutTime;
         connectOutTime = builder.connectOutTime;
-
+        base_url = builder.base_url;
     }
 
     public void initContext(Context context) {

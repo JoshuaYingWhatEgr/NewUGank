@@ -4,9 +4,8 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatImageView;
-import android.view.Window;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -30,8 +29,8 @@ public class LauncherActivity extends BaseActivity implements LauncherContract.V
 
     public LauncherContract.Presenter mLauncherPresenter;
 
-    @BindView(R.id.img_launcher_welcome)
-    AppCompatImageView mImageView;
+    @BindView(R.id.img_launcher)
+    AppCompatImageView imgLauncher;
 
     @Override
     public int setLayoutView() {
@@ -92,7 +91,7 @@ public class LauncherActivity extends BaseActivity implements LauncherContract.V
         /**
          * 通过picasso第三方图片加载器加载图片
          */
-        Picasso.with(this).load(url).into(mImageView, new Callback() {
+        Picasso.with(this).load(url).into(imgLauncher, new Callback() {
             @Override
             public void onSuccess() {
                 //图片加载成功
@@ -124,4 +123,5 @@ public class LauncherActivity extends BaseActivity implements LauncherContract.V
         mLauncherPresenter.unsubscribe();
         super.onDestroy();
     }
+
 }

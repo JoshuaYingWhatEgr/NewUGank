@@ -6,7 +6,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 import joshuayingwhat.newugank.AppContextConfig;
-import joshuayingwhat.newugank.api.RetrofitServer;
 import joshuayingwhat.newugank.network.interceptor.HttpLoggerInterceptor;
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -27,11 +26,11 @@ public class RetrofitFactory {
     private Retrofit builder;
 
     public static RetrofitFactory getInstance() {
-        return holder.retrofit;
+        return Holder.RETROFIT;
     }
 
-    private static class holder {
-        static final RetrofitFactory retrofit = new RetrofitFactory();
+    private static class Holder {
+        static final RetrofitFactory RETROFIT = new RetrofitFactory();
     }
 
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
@@ -51,8 +50,10 @@ public class RetrofitFactory {
                     .addConverterFactory(gsonConverterFactory)
                     .addCallAdapterFactory(rxJavaCallAdapterFactory);
 
-            if (TextUtils.isEmpty(Configurator.getBase_url())) {
+            if (!TextUtils.isEmpty(Configurator.getBase_url())) {
                 builder = retrofit.baseUrl(Configurator.getBase_url()).build();
+            } else {
+                throw new NullPointerException("base url 为空,请初始化");
             }
         }
     }
