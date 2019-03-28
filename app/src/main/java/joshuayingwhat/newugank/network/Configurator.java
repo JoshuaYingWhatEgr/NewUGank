@@ -26,6 +26,15 @@ public class Configurator implements Serializable {
      */
     private static String base_url;
 
+    /**
+     * 网络请求成功码
+     */
+    private static String isSuccess;
+
+    public static String getSuccess() {
+        return isSuccess;
+    }
+
     public static int getReadOutTime() {
         return readOutTime;
     }
@@ -54,6 +63,8 @@ public class Configurator implements Serializable {
         private int connectOutTime;
 
         private String base_url;
+
+        private String isSuccess;
 
         public Builder setReadOutTime(int readOutTime) {
             this.readOutTime = readOutTime;

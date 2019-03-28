@@ -33,7 +33,6 @@ import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.utils.MDTintUtil;
 
 /**
- *
  * @author JoshuaYingWhat
  * @date 2017/12/5
  */
@@ -75,7 +74,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public BasePresenter createPresenter() {
         if (mHomePresenter == null) {
-            mHomePresenter = new HomePresenter(this,new HomeModel());
+            mHomePresenter = new HomePresenter(this, new HomeModel());
         }
         return mHomePresenter;
     }

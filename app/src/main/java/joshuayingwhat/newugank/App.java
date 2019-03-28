@@ -6,7 +6,9 @@ import joshuayingwhat.newugank.api.ApiList;
 import joshuayingwhat.newugank.network.Configurator;
 
 /**
- * Created by JoshuaYingWhat on 2017/12/6.
+ *
+ * @author JoshuaYingWhat
+ * @date 2017/12/6
  */
 public class App extends Application {
 

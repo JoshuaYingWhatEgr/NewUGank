@@ -43,7 +43,7 @@ public class RetrofitFactory {
                 .readTimeout(Configurator.getReadOutTime(), TimeUnit.MILLISECONDS)
                 .connectTimeout(Configurator.getConnectOutTime(), TimeUnit.MILLISECONDS)
                 .addInterceptor(HttpLoggerInterceptor.
-                        LoggerInterceptor().
+                        loggerinterceptor().
                         setLevel(HttpLoggingInterceptor.Level.BODY)).cache(cache).build();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder().client(okHttpClient)

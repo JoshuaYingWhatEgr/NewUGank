@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
  */
 public class HttpLoggerInterceptor {
 
-    public static HttpLoggingInterceptor LoggerInterceptor() {
+    public static HttpLoggingInterceptor loggerinterceptor() {
         return new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {

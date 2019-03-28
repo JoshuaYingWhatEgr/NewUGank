@@ -10,7 +10,7 @@ import joshuayingwhat.newugank.ConfigManager;
 public class LauncherPresenter implements LauncherContract.Presenter {
     private LauncherContract.View launcherView;
 
-    public LauncherPresenter(LauncherContract.View view) {
+    LauncherPresenter(LauncherContract.View view) {
         this.launcherView = view;
     }
 
