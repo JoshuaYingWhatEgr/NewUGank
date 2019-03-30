@@ -2,10 +2,12 @@ package joshuayingwhat.newugank.entity;
 
 import java.util.List;
 
+import joshuayingwhat.newugank.network.response.BaseResponseEntity;
+
 /**
  * Created by JoshuaYingWhat on 2017/12/7.
  */
-public class CategoryResponse {
+public class CategoryResponse extends BaseResponseEntity {
     /**
      * error : false
      * results : [{"_id":"59810747421aa90ca3bb6bcc","createdAt":"2017-08-02T06:57:11.207Z","desc":"8-2","publishedAt":"2017-08-02T12:21:45.220Z","source":"chrome","type":"福利","url":"https://ws1.sinaimg.cn/large/610dc034gy1fi502l3eqjj20u00hz41j.jpg","used":true,"who":"代码家"}]

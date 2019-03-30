@@ -13,7 +13,7 @@ public class BaseResponseEntity implements Serializable {
     public String mag;
 
     public boolean isSuccess() {
-        return Configurator.
+        return Configurator.getSuccess().equals(isSuccess);
     }
 
 }

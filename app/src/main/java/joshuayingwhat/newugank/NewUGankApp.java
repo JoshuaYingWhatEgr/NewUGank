@@ -6,19 +6,20 @@ import joshuayingwhat.newugank.api.ApiList;
 import joshuayingwhat.newugank.network.Configurator;
 
 /**
- *
  * @author JoshuaYingWhat
  * @date 2017/12/6
  */
-public class App extends Application {
+public class NewUGankApp extends Application {
 
-    private static App INSTANCE;
+    private static NewUGankApp INSTANCE;
 
     private static final int CONNECT_OUT_TIME = 2000;
 
     private static final int READ_OUT_TIME = 2000;
 
-    public static App getInstance() {
+    private static final String IS_SUCCESS = "y";
+
+    public static NewUGankApp getInstance() {
         return INSTANCE;
     }
 
@@ -32,6 +33,7 @@ public class App extends Application {
 
         //初始化网络配置
         Configurator builder = new Configurator.Builder()
+                .setSuccess(IS_SUCCESS)
                 .setBaseUrl(ApiList.BASE_URL).setConnectOutTime(CONNECT_OUT_TIME).setReadOutTime(READ_OUT_TIME)
                 .builder();
         builder.initContext(this);

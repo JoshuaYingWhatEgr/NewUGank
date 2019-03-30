@@ -1,18 +1,20 @@
 package joshuayingwhat.newugank.home;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.graphics.Palette;
 import android.util.Log;
 
-import joshuayingwhat.newugank.App;
+import cn.nekocode.rxlifecycle.LifecycleEvent;
+import cn.nekocode.rxlifecycle.RxLifecycle;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import joshuayingwhat.newugank.NewUGankApp;
 import joshuayingwhat.newugank.ConfigManager;
 import joshuayingwhat.newugank.R;
 import joshuayingwhat.newugank.ThemeManager;
 import joshuayingwhat.newugank.entity.CategoryResult;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import joshuayingwhat.newugank.network.response.BaseObserver;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -20,12 +22,14 @@ import rx.subscriptions.CompositeSubscription;
  * @date 2017/12/6
  */
 public class HomePresenter implements HomeContract.Presenter {
+    private Context mContext;
     private HomeModel homeModdel;
     private HomeContract.View mHomeView;
 
     private CompositeSubscription mSubscription;
 
-    public HomePresenter(HomeContract.View view, HomeModel homeModel) {
+    public HomePresenter(Context context, HomeContract.View view, HomeModel homeModel) {
+        this.mContext = context;
         this.mHomeView = view;
         this.homeModdel = homeModel;
         mSubscription = new CompositeSubscription();
@@ -50,7 +54,7 @@ public class HomePresenter implements HomeContract.Presenter {
     @Override
     public void setThemeColor(Palette palette) {
         if (palette != null) {
-            int color = App.getInstance().getResources().getColor(R.color.colorPrimary);
+            int color = NewUGankApp.getInstance().getResources().getColor(R.color.colorPrimary);
             ThemeManager.INSTANCE.setColorParimay(palette.getDarkVibrantColor(color));
             mHomeView.setAppBarBackColor(ThemeManager.INSTANCE.getColorParimay());
             //设置fbbutton的背景色
@@ -63,7 +67,7 @@ public class HomePresenter implements HomeContract.Presenter {
     /**
      * 获取图片是否随机  true 不随机  false 随机
      *
-     * @param isRandom
+     * @param isRandom 是否随机 true 不随机 false 随机
      */
     private void getBanner(boolean isRandom) {
         //开始设置FloatingActionButton动画
@@ -77,35 +81,70 @@ public class HomePresenter implements HomeContract.Presenter {
         } else {
 
         }
-        Subscription subscribe = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CategoryResult>() {
-            @Override
-            public void onCompleted() {
+        if (observable != null) {
+//            Subscription subscribe = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<CategoryResult>() {
+//                @Override
+//                public void onCompleted() {
+//
+//                }
+//
+//                @Override
+//                public void onError(Throwable e) {
+//                    mHomeView.showBannerFail();
+//                    mHomeView.setEnableClick();//恢复点击状态
+//                    mHomeView.stopBannerLoadingAnim();
+//                }
+//
+//                @Override
+//                public void onNext(CategoryResult categoryResult) {
+//                    if (categoryResult != null && categoryResult.results != null && categoryResult.results.size() > 0
+//                            && categoryResult.results.get(0).url != null) {
+//                        Log.e("Tag", "url=" + categoryResult.results.get(0).url);
+//                        //设置banner图片
+//                        mHomeView.setBannerImage(categoryResult.results.get(0).url);
+//                    } else {
+//                        mHomeView.showBannerFail();
+//                    }
+//                    //获取到图片后停止动画
+//                    mHomeView.stopBannerLoadingAnim();
+//                    //恢复点击状态
+//                    mHomeView.setEnableClick();
+//                }
+//            });
 
-            }
+            observable.subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxLifecycle.bind((Activity) mContext).<CategoryResult>disposeObservableWhen(LifecycleEvent.DESTROY))
+                    .subscribe(new BaseObserver<CategoryResult>() {
+                        @Override
+                        protected void onStart() {
+                            mHomeView.showBannerFail();
+                            mHomeView.setEnableClick();//恢复点击状态
+                            mHomeView.stopBannerLoadingAnim();
+                        }
 
-            @Override
-            public void onError(Throwable e) {
-                mHomeView.showBannerFail();
-                mHomeView.setEnableClick();//恢复点击状态
-                mHomeView.stopBannerLoadingAnim();
-            }
+                        @Override
+                        protected void onFinish() {
 
-            @Override
-            public void onNext(CategoryResult categoryResult) {
-                if (categoryResult != null && categoryResult.results != null && categoryResult.results.size() > 0
-                        && categoryResult.results.get(0).url != null) {
-                    Log.e("Tag", "url=" + categoryResult.results.get(0).url);
-                    //设置banner图片
-                    mHomeView.setBannerImage(categoryResult.results.get(0).url);
-                } else {
-                    mHomeView.showBannerFail();
-                }
-                //获取到图片后停止动画
-                mHomeView.stopBannerLoadingAnim();
-                //恢复点击状态
-                mHomeView.setEnableClick();
-            }
-        });
+                        }
+
+                        @Override
+                        protected void onSuccess(CategoryResult categoryResult) {
+                            if (categoryResult != null && categoryResult.results != null && categoryResult.results.size() > 0
+                                    && categoryResult.results.get(0).url != null) {
+                                Log.e("Tag", "url=" + categoryResult.results.get(0).url);
+                                //设置banner图片
+                                mHomeView.setBannerImage(categoryResult.results.get(0).url);
+                            } else {
+                                mHomeView.showBannerFail();
+                            }
+                            //获取到图片后停止动画
+                            mHomeView.stopBannerLoadingAnim();
+                            //恢复点击状态
+                            mHomeView.setEnableClick();
+                        }
+                    });
+        }
     }
 
 
@@ -123,27 +162,51 @@ public class HomePresenter implements HomeContract.Presenter {
         //网络获取随机妹子
         Observable<CategoryResult> observable;
         observable = homeModdel.getRandomBeauties(1);
-        Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CategoryResult>() {
+//        Subscription subscription = observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<CategoryResult>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(CategoryResult categoryResult) {
+//                        if (categoryResult != null && categoryResult.results != null
+//                                && categoryResult.results.size() > 0 && categoryResult.results.get(0).url != null) {
+//                            mHomeView.cacheImg(categoryResult.results.get(0).url);
+//                        }
+//                    }
+//                });
+
+        observable.subscribeOn(io.reactivex.schedulers.Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new BaseObserver<CategoryResult>() {
+
                     @Override
-                    public void onCompleted() {
+                    protected void onStart() {
 
                     }
 
                     @Override
-                    public void onError(Throwable e) {
+                    protected void onFinish() {
 
                     }
 
                     @Override
-                    public void onNext(CategoryResult categoryResult) {
+                    protected void onSuccess(CategoryResult categoryResult) {
                         if (categoryResult != null && categoryResult.results != null
                                 && categoryResult.results.size() > 0 && categoryResult.results.get(0).url != null) {
                             mHomeView.cacheImg(categoryResult.results.get(0).url);
                         }
                     }
                 });
-        mSubscription.add(subscription);
+
+//                        mSubscription.add(subscription);
     }
 
 }

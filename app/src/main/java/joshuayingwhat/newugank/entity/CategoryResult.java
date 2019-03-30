@@ -2,10 +2,12 @@ package joshuayingwhat.newugank.entity;
 
 import java.util.List;
 
+import joshuayingwhat.newugank.network.response.BaseResponseEntity;
+
 /**
  * Created by JoshuaYingWhat on 2017/12/6.
  */
-public class CategoryResult {
+public class CategoryResult extends BaseResponseEntity {
     public boolean error;
 
     public List<ResultsBean> results;

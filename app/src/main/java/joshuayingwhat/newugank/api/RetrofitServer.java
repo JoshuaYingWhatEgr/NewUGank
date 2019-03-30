@@ -1,9 +1,9 @@
 package joshuayingwhat.newugank.api;
 
+import io.reactivex.Observable;
 import joshuayingwhat.newugank.entity.CategoryResult;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import rx.Observable;
 
 /**
  * api retrofit

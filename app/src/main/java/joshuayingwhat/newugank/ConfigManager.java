@@ -27,7 +27,7 @@ public enum ConfigManager {
     //设置banner图片,预加载图片等 第一次启动时没有显示页图片的,第二次启动设置了之后才有
     public void setBannerURL(String bannerURL) {
         //将url保存到内部存储中,一便下次显示启动页图片
-        SharedPreferences sharedPreferences = App.getInstance().getSharedPreferences(spName, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = NewUGankApp.getInstance().getSharedPreferences(spName, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(key_banner_url, bannerURL);
         if (editor.commit()) {

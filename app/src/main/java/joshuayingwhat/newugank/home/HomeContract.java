@@ -2,11 +2,11 @@ package joshuayingwhat.newugank.home;
 
 import android.support.v7.graphics.Palette;
 
+import io.reactivex.Observable;
 import joshuayingwhat.newugank.base.BaseModel;
 import joshuayingwhat.newugank.base.BasePresenter;
 import joshuayingwhat.newugank.base.BaseView;
 import joshuayingwhat.newugank.entity.CategoryResult;
-import rx.Observable;
 
 /**
  * homeContract契约类

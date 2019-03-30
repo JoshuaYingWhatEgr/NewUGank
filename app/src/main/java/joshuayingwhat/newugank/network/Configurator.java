@@ -81,6 +81,17 @@ public class Configurator implements Serializable {
             return this;
         }
 
+        /**
+         * 设置 请求成功码
+         *
+         * @param isSuccess
+         * @return
+         */
+        public Builder setSuccess(String isSuccess) {
+            this.isSuccess = isSuccess;
+            return this;
+        }
+
         public Configurator builder() {
             return new Configurator(this);
         }

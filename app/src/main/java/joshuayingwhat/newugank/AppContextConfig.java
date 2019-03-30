@@ -6,7 +6,7 @@ public class AppContextConfig {
     private static Context context;
 
     public AppContextConfig() {
-        throw new UnsupportedOperationException("can not create this object");
+        throw new UnsupportedOperationException("can not create this class object");
     }
 
     public static void intit(Context context) {
@@ -17,7 +17,7 @@ public class AppContextConfig {
         if (context != null) {
             return context;
         } else {
-            throw  new NullPointerException("请先初始化此类");
+            throw new NullPointerException("请先初始化此类");
         }
     }
 }

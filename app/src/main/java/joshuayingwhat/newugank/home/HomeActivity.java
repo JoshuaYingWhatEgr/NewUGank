@@ -74,7 +74,7 @@ public class HomeActivity extends BaseActivity implements HomeContract.View {
     @Override
     public BasePresenter createPresenter() {
         if (mHomePresenter == null) {
-            mHomePresenter = new HomePresenter(this, new HomeModel());
+            mHomePresenter = new HomePresenter(this,this, new HomeModel());
         }
         return mHomePresenter;
     }
