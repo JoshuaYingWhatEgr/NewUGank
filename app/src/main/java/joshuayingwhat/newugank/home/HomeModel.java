@@ -9,7 +9,7 @@ import joshuayingwhat.newugank.network.RetrofitFactory;
 /**
  * @author joshuayingwhat
  */
-public class HomeModel implements HomeContract.Model{
+public class HomeModel implements HomeContract.Model {
 
     @Override
     public Observable<CategoryResult> getRandomBeauties(int number) {

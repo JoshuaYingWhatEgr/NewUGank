@@ -7,6 +7,7 @@ import retrofit2.http.Path;
 
 /**
  * api retrofit
+ * @author joshuayingwhat
  */
 public interface RetrofitServer {
     @GET("random/data/福利/{number}")

@@ -18,7 +18,7 @@ import io.reactivex.disposables.Disposable;
 import joshuayingwhat.newugank.AppContextConfig;
 import joshuayingwhat.newugank.network.exception.ExceptionInfo;
 import joshuayingwhat.newugank.utils.ToastUtils;
-import retrofit2.adapter.rxjava.HttpException;
+import retrofit2.HttpException;
 
 public abstract class BaseObserver<T extends BaseResponseEntity> implements Observer<T> {
 
@@ -53,9 +53,9 @@ public abstract class BaseObserver<T extends BaseResponseEntity> implements Obse
     public void onNext(T response) {
         onFinish();
 
-        if (response.isSuccess()) {
+        if (response.error == false) {
             onSuccess(response);
-        } else {
+        } else if(response.error == true){
             onFailed(response);
         }
 
@@ -122,13 +122,12 @@ public abstract class BaseObserver<T extends BaseResponseEntity> implements Obse
                 ToastUtils.showToastMsg(AppContextConfig.getContext(), UNKONW_ERROR, Toast.LENGTH_SHORT);
                 break;
             default:
-                break;
         }
     }
 
     private void onFailed(T response) {
-        if (!TextUtils.isEmpty(response.mag)) {
-            ToastUtils.showToastMsg(AppContextConfig.getContext(), response.mag, Toast.LENGTH_SHORT);
+        if (!TextUtils.isEmpty(response.msg)) {
+            ToastUtils.showToastMsg(AppContextConfig.getContext(), response.msg, Toast.LENGTH_SHORT);
         } else {
             ToastUtils.showToastMsg(AppContextConfig.getContext(), RESPONSE_RETURN_ERROR, Toast.LENGTH_SHORT);
         }

@@ -15,7 +15,6 @@ import joshuayingwhat.newugank.R;
 import joshuayingwhat.newugank.ThemeManager;
 import joshuayingwhat.newugank.entity.CategoryResult;
 import joshuayingwhat.newugank.network.response.BaseObserver;
-import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author JoshuaYingWhat
@@ -26,13 +25,11 @@ public class HomePresenter implements HomeContract.Presenter {
     private HomeModel homeModdel;
     private HomeContract.View mHomeView;
 
-    private CompositeSubscription mSubscription;
 
-    public HomePresenter(Context context, HomeContract.View view, HomeModel homeModel) {
+    HomePresenter(Context context, HomeContract.View view, HomeModel homeModel) {
         this.mContext = context;
         this.mHomeView = view;
         this.homeModdel = homeModel;
-        mSubscription = new CompositeSubscription();
     }
 
     @Override
@@ -112,20 +109,20 @@ public class HomePresenter implements HomeContract.Presenter {
 //                }
 //            });
 
-            observable.subscribeOn(io.reactivex.schedulers.Schedulers.io())
+            homeModdel.getRandomBeauties(1).subscribeOn(io.reactivex.schedulers.Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(RxLifecycle.bind((Activity) mContext).<CategoryResult>disposeObservableWhen(LifecycleEvent.DESTROY))
                     .subscribe(new BaseObserver<CategoryResult>() {
                         @Override
                         protected void onStart() {
-                            mHomeView.showBannerFail();
-                            mHomeView.setEnableClick();//恢复点击状态
-                            mHomeView.stopBannerLoadingAnim();
+
                         }
 
                         @Override
                         protected void onFinish() {
-
+//                            mHomeView.showBannerFail();
+                            mHomeView.setEnableClick();//恢复点击状态
+                            mHomeView.stopBannerLoadingAnim();
                         }
 
                         @Override
@@ -155,10 +152,9 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        mSubscription.clear();
     }
 
-    public void cacheRandomImg() {
+    private void cacheRandomImg() {
         //网络获取随机妹子
         Observable<CategoryResult> observable;
         observable = homeModdel.getRandomBeauties(1);
@@ -183,7 +179,7 @@ public class HomePresenter implements HomeContract.Presenter {
 //                    }
 //                });
 
-        observable.subscribeOn(io.reactivex.schedulers.Schedulers.io())
+        homeModdel.getRandomBeauties(1).subscribeOn(io.reactivex.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new BaseObserver<CategoryResult>() {
 
@@ -205,8 +201,6 @@ public class HomePresenter implements HomeContract.Presenter {
                         }
                     }
                 });
-
-//                        mSubscription.add(subscription);
     }
 
 }

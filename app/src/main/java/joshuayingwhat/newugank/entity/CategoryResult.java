@@ -8,7 +8,7 @@ import joshuayingwhat.newugank.network.response.BaseResponseEntity;
  * Created by JoshuaYingWhat on 2017/12/6.
  */
 public class CategoryResult extends BaseResponseEntity {
-    public boolean error;
+//    public boolean error;
 
     public List<ResultsBean> results;
 
